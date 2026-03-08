@@ -12,8 +12,8 @@
 <body class="bg-gray-50">
 
   <header class="bg-white border-b px-8 py-4 flex justify-between items-center sticky top-0 z-50">
-    <div class="flex items-center gap-2 font-bold text-xl">
-      <i class="fa-brands fa-github"></i> GitHub Issues Tracker
+    <div class="flex items-center gap-2 font-bold text-2xl">
+      <i class=" text-3xl fa-brands fa-github"></i> GitHub Issues Tracker
     </div>
     <div class="flex gap-4">
       <div class="relative">
@@ -27,11 +27,13 @@
   </header>
 
   <main class="max-w-7xl mx-auto p-8">
-    <div class="bg-white p-4 rounded-lg border mb-8 flex gap-4">
-      <button class="filter-btn bg-[#6322F5] text-white px-8 py-2 rounded-md text-sm font-medium">All</button>
-      <button class="filter-btn bg-white border px-8 py-2 rounded-md text-sm font-medium hover:bg-gray-50">Open</button>
-      <button
-        class="filter-btn bg-white border px-8 py-2 rounded-md text-sm font-medium hover:bg-gray-50">Closed</button>
+    <div id="filter-container" class="bg-white p-4 rounded-lg border mb-8 flex gap-4">
+      <button  id="btn-all"
+        class="filter-btn bg-[#6322F5] text-white px-8 py-2 rounded-md text-sm font-medium">All</button>
+      <button id="btn-open"
+        class="filter-btn bg-white border px-8 py-2 rounded-md text-sm font-medium">Open</button>
+      <button id="btn-closed"
+        class="filter-btn bg-white border px-8 py-2 rounded-md text-sm font-medium">Closed</button>
     </div>
 
     <div class="bg-white p-6 rounded-t-lg border-x border-t flex justify-between items-center">
