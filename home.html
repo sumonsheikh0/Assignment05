@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitHub Issues Tracker
-</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Issues Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-  Home page
+<body class="bg-gray-50">
+
+    <header class="bg-white border-b px-8 py-4 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center gap-2 font-bold text-xl">
+            <i class="fa-brands fa-github"></i> GitHub Issues Tracker
+        </div>
+        <div class="flex gap-4">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
+                <input type="text" id="searchInput" placeholder="Search issues..." class="border rounded-md pl-10 pr-4 py-2 w-64 focus:outline-none focus:ring-1 focus:ring-purple-500">
+            </div>
+            <button class="bg-[#6322F5] text-white px-4 py-2 rounded-md hover:bg-purple-700 font-semibold text-sm">+ New Issue</button>
+        </div>
+    </header>
+    <script src="home.js"></script>
 </body>
 </html>
