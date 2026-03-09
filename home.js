@@ -22,3 +22,115 @@ filterButtons.forEach(button => {
     filterIssues(status);
   });
 });
+
+
+//API add //
+const issuesGrid = document.getElementById('issues-grid');
+const issueCount = document.getElementById('issueCount');
+
+async function loadIssues() {
+  try {
+    const response = await fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues');
+    const result = await response.json();
+
+    if (result.status === "success") {
+      allIssues = result.data;
+      displayIssues(allIssues); 
+    }
+  } catch (error) {
+    console.error("API Error:", error);
+    issuesGrid.innerHTML = `<p class="text-red-500 p-5">Data could not be loaded.</p>`;
+  }
+}
+
+// info card design
+function displayIssues(issues) {
+  issueCount.innerText = `${issues.length} Issues`;
+  issuesGrid.innerHTML = '';
+
+  issues.forEach(issue => {
+    const isOpen = issue.status.toLowerCase() === 'open';
+    const statusColor = isOpen ? 'bg-[#22C55E]' : 'bg-[#6322F5]';
+    const iconColor = isOpen ? 'text-[#22C55E]' : 'text-[#6322F5]';
+    const statusIcon = isOpen ? 'fa-regular fa-circle-dot' : 'fa-regular fa-circle-check';
+
+
+    const priority = issue.priority.toLowerCase();
+    let priorityStyle = 'bg-gray-100 text-gray-600';
+    if (priority === 'high') priorityStyle = 'bg-[#FEECEC] text-[#EF4444]';
+    else if (priority === 'medium') priorityStyle = 'bg-[#FFF6D1] text-[#F59E0B]';
+
+    const cardHTML = `
+            <div class="relative bg-white border border-gray-100 rounded-xl p-5 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow">
+                <div class="absolute top-0 left-0 w-full h-[4px] ${statusColor} rounded-t-2xl"></div>
+                
+                <div class="flex justify-between items-center mb-4 mt-2">
+                    <div class="${iconColor} text-lg">
+                        <i class="${statusIcon}"></i>
+                    </div>
+                    <span class="text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${priorityStyle}">
+                        ${issue.priority}
+                    </span>
+                </div>
+
+                <h3 class="font-bold text-[#111827] text-[15px] mb-2 leading-tight uppercase">
+                    ${issue.title}
+                </h3>
+                <p class="text-[12px] text-gray-400 mb-4 line-clamp-3">
+                    ${issue.description}
+                </p>
+
+                <div class="flex flex-wrap gap-2 mb-6">
+                    ${issue.labels.map(label => {
+      let labelColor = "bg-[#FEE2E2] text-[#EF4444] border-[#FCA5A5]";
+let icon = "fa-bug";
+
+if (label.toLowerCase().includes('enhancement')) {
+  labelColor = "bg-[#DCFCE7] text-[#22C55E] border-[#86EFAC]";
+  icon = "fa-wand-magic-sparkles";
+}
+
+if (label.toLowerCase().includes('help wanted')) {
+  labelColor = "bg-[#FFF6D1] text-[#F59E0B] border-[#D97706]";
+  icon = "fa-regular fa-handshake";
+}
+if (label.toLowerCase().includes('documentation')) {
+  labelColor = "bg-[#FEE2E2] text-[#F59E0B] border-[#D97706]";
+  icon = "fa-regular fa-file";
+}
+
+if (label.toLowerCase().includes('good first issue')) {
+  labelColor = "bg-blue-200 text-blue-700 border-blue-700";
+  icon = "fa-solid fa-circle-exclamation";
+}
+
+return `
+<span class="flex items-center gap-1 px-2 py-1 rounded-full border text-[9px] font-bold uppercase ${labelColor}">
+<i class="fa-solid ${icon}"></i> ${label}
+</span>
+`;
+    }).join('')}
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-gray-50 text-[11px] text-gray-400 font-medium">
+                    <p>#${issue.id} by ${issue.author}</p>
+                    <p>${new Date(issue.createdAt).toLocaleDateString()}</p>
+                </div>
+            </div>
+        `;
+    issuesGrid.insertAdjacentHTML('beforeend', cardHTML);
+  });
+}
+
+// filter issue setup
+function filterIssues(status) {
+  if (status === 'all') {
+    displayIssues(allIssues);
+  } else {
+    const filtered = allIssues.filter(i => i.status.toLowerCase() === status);
+    displayIssues(filtered);
+  }
+}
+
+
+loadIssues();
