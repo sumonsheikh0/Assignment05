@@ -27,6 +27,7 @@ filterButtons.forEach(button => {
 //API add //
 const issuesGrid = document.getElementById('issues-grid');
 const issueCount = document.getElementById('issueCount');
+const searchInput = document.getElementById("searchInput");
 
 async function loadIssues() {
   try {
@@ -259,3 +260,41 @@ document.getElementById("closeModal").addEventListener("click", function () {
   document.getElementById("issueModal").classList.add("hidden");
 
 });
+
+// search function 
+searchInput.addEventListener("input", function () {
+
+  const searchText = this.value.trim();
+
+  searchIssues(searchText);
+
+});
+
+async function searchIssues(text) {
+
+  if (text === "") {
+    displayIssues(allIssues);
+    return;
+  }
+
+  try {
+
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${text}`);
+
+    const result = await res.json();
+
+    if (result.status === "success") {
+
+      displayIssues(result.data);
+
+    }
+
+  } catch (error) {
+
+    console.log("Search error", error);
+
+  }
+
+}
+
+
